@@ -1,4 +1,4 @@
-package fi.haagahelia.lukkari;
+package lukkaripackage;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -6,7 +6,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.opencsv.CSVReader;
@@ -18,13 +21,19 @@ public class ParseCSV {
 
 	public static void main(String[] args) {
 		List<Kurssi> kurssit = parseCoursesFromCSV();
-		courseListToDB(kurssit);
+		List<Kurssi> kurssitestLista = new ArrayList<Kurssi>();
+		for(int i = 0; i < 10; i++){
+			Kurssi kurssitest= kurssit.get(i);
+			kurssitestLista.add(kurssitest);
+		}
+		courseListToDB(kurssitestLista);
 	}
 
 	private static void courseListToDB(List<Kurssi> kurssit) {
 		try{
 			Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/projekti", "projekti", "veRIJY94e");
-			
+			java.sql.Date sqlAlkaa = null;
+			java.sql.Date sqlPaattyy = null;
 			for(Kurssi kurssi : kurssit){
 				PreparedStatement pStmt = conn.prepareStatement("INSERT INTO kurssi (tunnus,muutettu,suoritustapa,ilta,opintojakso,osaamisalueryhma,kieli,op,opettaja,toimipiste,ohjelma,ryhma,alkaa,paattyy,periodi1,periodi2,huone,kuvaus) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 				
@@ -60,7 +69,27 @@ public class ParseCSV {
 				
 				pStmt.setString(12, kurssi.getRyhma());
 				
+				SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+				try{
+					Date alkaa = df.parse(kurssi.getAlkaa());
+					sqlAlkaa = new java.sql.Date(alkaa.getTime());
+				}
+				catch(Exception e) {
+					System.out.println(e);
+				}
+				//
+				pStmt.setDate(13, sqlAlkaa);
 				
+				try{
+					Date paattyy = df.parse(kurssi.getPaattyy());
+					sqlPaattyy = new java.sql.Date(paattyy.getTime());
+				}catch(Exception e){
+					System.out.println(e);
+				}
+				
+				
+				
+				pStmt.execute();
 			}
 			
 		}catch(SQLException e){
@@ -71,7 +100,7 @@ public class ParseCSV {
 	private static List<Kurssi> parseCoursesFromCSV(){
 		List<Kurssi> kurssit = new ArrayList<Kurssi>();
         try {
-            CSVReader reader = new CSVReader(new FileReader("src/kurssit.csv"), ';');
+            CSVReader reader = new CSVReader(new FileReader("src/kurssit.csv"), ';','"',6);
             
             ColumnPositionMappingStrategy<Kurssi> mappingStrategy = new ColumnPositionMappingStrategy<Kurssi>();
             mappingStrategy.setType(Kurssi.class);

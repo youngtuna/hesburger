@@ -1,4 +1,4 @@
-package fi.haagahelia.lukkari;
+package lukkaripackage;
 
 public class Kurssi {
 	private String muutettu;
