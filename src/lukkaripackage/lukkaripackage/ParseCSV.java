@@ -21,16 +21,12 @@ public class ParseCSV {
 
 	public static void main(String[] args) {
 		List<Kurssi> kurssit = parseCoursesFromCSV();
-		List<Kurssi> kurssitestLista = new ArrayList<Kurssi>();
-		for(int i = 0; i < 10; i++){
-			Kurssi kurssitest= kurssit.get(i);
-			kurssitestLista.add(kurssitest);
-		}
-		courseListToDB(kurssitestLista);
+		courseListToDB(kurssit);
 	}
 
 	private static void courseListToDB(List<Kurssi> kurssit) {
 		try{
+			int i = 1;
 			Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/projekti", "projekti", "veRIJY94e");
 			java.sql.Date sqlAlkaa = null;
 			java.sql.Date sqlPaattyy = null;
@@ -54,42 +50,23 @@ public class ParseCSV {
 				}
 				
 				pStmt.setString(5, kurssi.getOpintojakso());
-			
 				pStmt.setString(6, kurssi.getOsaamisalueryhma());
-				
 				pStmt.setString(7, kurssi.getKieli());
-				
-				pStmt.setInt(8, Integer.parseInt(kurssi.getOp()));
-				
+				pStmt.setString(8, kurssi.getOp());
 				pStmt.setString(9, kurssi.getOpettaja());
-				
 				pStmt.setString(10, kurssi.getToimipiste());
-				
 				pStmt.setString(11, kurssi.getOhjelma());
-				
 				pStmt.setString(12, kurssi.getRyhma());
-				
-				SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-				try{
-					Date alkaa = df.parse(kurssi.getAlkaa());
-					sqlAlkaa = new java.sql.Date(alkaa.getTime());
-				}
-				catch(Exception e) {
-					System.out.println(e);
-				}
-				//
-				pStmt.setDate(13, sqlAlkaa);
-				
-				try{
-					Date paattyy = df.parse(kurssi.getPaattyy());
-					sqlPaattyy = new java.sql.Date(paattyy.getTime());
-				}catch(Exception e){
-					System.out.println(e);
-				}
-				
-				
+				pStmt.setString(13, kurssi.getAlkaa());
+				pStmt.setString(14, kurssi.getPaattyy());
+				pStmt.setString(15, kurssi.getPeriodi1());
+				pStmt.setString(16, kurssi.getPeriodi2());
+				pStmt.setString(17, kurssi.getHuone());
+				pStmt.setString(18, kurssi.getKuvaus());
 				
 				pStmt.execute();
+				System.out.println(i);
+				i++;
 			}
 			
 		}catch(SQLException e){
