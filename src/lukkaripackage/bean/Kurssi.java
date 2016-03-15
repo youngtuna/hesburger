@@ -1,9 +1,8 @@
-package lukkaripackage;
+package bean;
 
 public class Kurssi {
 	private String muutettu;
 	private String suoritustapa;
-	private String vaihtooppilas;
 	private String ilta;
 	private String tunnus;
 	private String opintojakso;
@@ -21,7 +20,7 @@ public class Kurssi {
 	private String huone;
 	private String kuvaus;
 	
-	public Kurssi(String muutettu, String suoritustapa, String vaihtooppilas,
+	public Kurssi(String muutettu, String suoritustapa,
 			String ilta, String tunnus, String opintojakso,
 			String osaamisalueryhma, String kieli, String op, String opettaja,
 			String toimipiste, String ohjelma, String ryhma, String alkaa,
@@ -29,7 +28,6 @@ public class Kurssi {
 			String kuvaus) {
 		this.muutettu = muutettu;
 		this.suoritustapa = suoritustapa;
-		this.vaihtooppilas = vaihtooppilas;
 		this.ilta = ilta;
 		this.tunnus = tunnus;
 		this.opintojakso = opintojakso;
@@ -51,7 +49,6 @@ public class Kurssi {
 	public Kurssi() {
 		this.muutettu = "";
 		this.suoritustapa = "";
-		this.vaihtooppilas = "";
 		this.ilta = "";
 		this.tunnus = "";
 		this.opintojakso = "";
@@ -84,14 +81,6 @@ public class Kurssi {
 
 	public void setSuoritustapa(String suoritustapa) {
 		this.suoritustapa = suoritustapa;
-	}
-
-	public String getVaihtooppilas() {
-		return vaihtooppilas;
-	}
-
-	public void setVaihtooppilas(String vaihtooppilas) {
-		this.vaihtooppilas = vaihtooppilas;
 	}
 
 	public String getIlta() {
@@ -225,7 +214,7 @@ public class Kurssi {
 	@Override
 	public String toString() {
 		return "Kurssi [muutettu=" + muutettu + ", suoritustapa="
-				+ suoritustapa + ", vaihtooppilas=" + vaihtooppilas + ", ilta="
+				+ suoritustapa + ", vaihtooppilas=" + ", ilta="
 				+ ilta + ", tunnus=" + tunnus + ", opintojakso=" + opintojakso
 				+ ", osaamisalueryhma=" + osaamisalueryhma + ", kieli=" + kieli
 				+ ", op=" + op + ", opettaja=" + opettaja + ", toimipiste="

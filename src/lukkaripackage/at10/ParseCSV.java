@@ -1,4 +1,4 @@
-package lukkaripackage;
+package at10;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,6 +15,8 @@ import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
+
+import bean.Kurssi;
 
 
 public class ParseCSV {
